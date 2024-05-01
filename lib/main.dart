@@ -1,6 +1,10 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:push_notification_demo/config/config.dart';
+import 'package:push_notification_demo/network/endpoints/deviceInfo_api.dart';
 
-void main() {
+void main() async {
+  await initConfig();
   runApp(const MyApp());
 }
 
@@ -10,6 +14,19 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+
+  //Code snippet for instantiating api call(need to be triggered seperately on any action)
+    var cfg = Config();
+  final DeviceInfoApi client = DeviceInfoApi(
+      Dio(
+        BaseOptions(
+            contentType: "application/json",
+            baseUrl: cfg.get("BASE_URL")),
+      ),
+    );
+
+
+
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
