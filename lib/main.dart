@@ -1,10 +1,17 @@
 import 'package:dio/dio.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:push_notification_demo/config/config.dart';
+import 'package:push_notification_demo/firebase_options.dart';
 import 'package:push_notification_demo/network/endpoints/deviceInfo_api.dart';
+import 'package:push_notification_demo/presentation/Home.dart';
 
 void main() async {
   await initConfig();
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+  options: DefaultFirebaseOptions.currentPlatform,
+);
   runApp(const MyApp());
 }
 
@@ -48,7 +55,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: Home()
     );
   }
 }

@@ -12,6 +12,6 @@ abstract class DeviceInfoApi{
   @POST("/device-info")
   Future<DeviceInfoResponse> updateDeviceInfo(
     @Body() DeviceInfoRequest updateDeviceInfo, [
-    @CancelRequest() CancelToken? cancelToken,
+    @CancelRequest() CancelToken? cancelToken, 
   ]);
 }
