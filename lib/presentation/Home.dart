@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:push_notification_demo/config/config.dart';
+import 'package:push_notification_demo/local_notifcation_service/LocalNotificationService.dart';
 import 'package:push_notification_demo/network/endpoints/deviceInfo_api.dart';
 import 'package:push_notification_demo/network/model/DeviceInfoRequest.dart';
 
@@ -23,14 +24,19 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    print("InitState is executed");
+    LocalNotificationService.initialize();
     _firebaseMessaging.getToken().then((token) => {
       setState((){
         deviceToken = token;
       }),
       print("The token is $token")
     });
-    _firebaseMessaging.setForegroundNotificationPresentationOptions(alert: true,badge: true,sound: true);
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) { 
+         if (message.notification != null) {
+        LocalNotificationService.display(message);
+      }
+      print("Message received: ${message.notification?.body}");
+    });
   }
 
   @override
